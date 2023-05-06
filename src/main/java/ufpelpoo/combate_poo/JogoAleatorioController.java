@@ -106,12 +106,12 @@ public class JogoAleatorioController extends AleatorioController {
                 linJogada= tabuleiro.getRowByClickedNode(grTabuleiro, clickedNode);
                 colJogada= tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
                 boolean jogou = tabuleiro.jogada(linSelecionada, colSelecionada, linJogada, colJogada);
-                tabuleiro.imprimirTabuleiro();
 
                 if(jogou){
                     System.out.println("\n");
                     tabuleiro.imprimirTabuleiro();
                     tabuleiro.refreshTabuleiro(grTabuleiro);
+                    tabuleiro.jogaAdversario();
                 }
                 gridFlag=0;
                 System.out.println(linJogada+" " +colJogada);
@@ -119,6 +119,5 @@ public class JogoAleatorioController extends AleatorioController {
         }
 
     }
-    //tabuleiro.imprimirTabuleiro();
 
 }

@@ -494,5 +494,22 @@ public class Tabuleiro{
         return lin;
     }
 
+    public void jogaAdversario(){
+        Random random= new Random();
+        int linhaAtual, colunaAtual, novaLinha, novaColuna;
+        boolean jogou =false;
+        do{
+            linhaAtual= random.nextInt(5);
+            colunaAtual= random.nextInt(5);
+            novaLinha=  random.nextInt(5);
+            novaColuna= random.nextInt(5);
+
+            if(getEquipe(tabuleiro[linhaAtual][colunaAtual])=="vermelho" && getEquipe(tabuleiro[novaLinha][novaColuna])!="vermelho") {
+                jogou = jogada(linhaAtual, colunaAtual, novaLinha, novaColuna);
+            }
+        }while (!jogou);
+
+    }
+
 
 }

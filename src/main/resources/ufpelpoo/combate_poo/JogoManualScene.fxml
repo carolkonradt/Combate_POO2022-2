@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ufpelpoo.combate_poo.JogoManualController">
    <children>
-      <GridPane fx:id="grTabuleiro" gridLinesVisible="true" layoutX="62.0" layoutY="35.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="470.0" prefWidth="540.0" styleClass="grTabuleiro" stylesheets="@TelaInicial.css">
+      <GridPane fx:id="grTabuleiro" gridLinesVisible="true" layoutX="62.0" layoutY="35.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#onGridClick" prefHeight="470.0" prefWidth="540.0" rotate="180.0" styleClass="grTabuleiro" stylesheets="@TelaInicial.css">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
