@@ -1,0 +1,37 @@
+/*vermelho escuro: #A32B10
+vermelho: #F02C00
+azul escuro: #0834A3
+azul: #1855F0
+verde: #9BF018
+ verde hover: #A3F03E*/
+
+.btAleatorio{
+    -fx-background-color: #9BF018;
+    -fx-text-fill: white;
+    -fx-start-margin: 80;
+}
+
+.btAleatorio:hover{
+    -fx-background-color:#A3F03E;
+}
+.btManual{
+    -fx-background-color: #9BF018;
+    -fx-text-fill: white;
+    -fx-start-margin: 80;
+}
+
+.btVoltar{
+    -fx-background-color: #9BF018;
+    -fx-text-fill: white;
+}
+
+.btVoltar:hover{
+    -fx-background-color: #A3F03E;
+    -fx-text-fill: white;
+}
+
+.grTabuleiro{
+    -fx-background-color: #F2F0B6; //warm white
+}
+
+
