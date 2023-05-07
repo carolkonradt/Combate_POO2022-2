@@ -113,6 +113,7 @@ public class JogoManualController extends ManualController {
                     tabuleiro.imprimirTabuleiro();
                     tabuleiro.refreshTabuleiro(grTabuleiro);
                     tabuleiro.jogaAdversario();
+                    tabuleiro.refreshTabuleiro(grTabuleiro);
                 }
                 gridFlag=0;
                 System.out.println(linJogada+" " +colJogada);

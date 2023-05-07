@@ -75,7 +75,7 @@ public class JogoAleatorioController extends AleatorioController {
     }
 
     @FXML
-    void onGridClick(MouseEvent event) throws FileNotFoundException {
+    void onGridClick(MouseEvent event) throws FileNotFoundException, InterruptedException {
         Node clickedNode = event.getPickResult().getIntersectedNode();
         if(dicaFlag==1){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -107,11 +107,12 @@ public class JogoAleatorioController extends AleatorioController {
                 colJogada= tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
                 boolean jogou = tabuleiro.jogada(linSelecionada, colSelecionada, linJogada, colJogada);
 
-                if(jogou){
+                if(jogou==true){
                     System.out.println("\n");
                     tabuleiro.imprimirTabuleiro();
                     tabuleiro.refreshTabuleiro(grTabuleiro);
                     tabuleiro.jogaAdversario();
+                    tabuleiro.refreshTabuleiro(grTabuleiro);
                 }
                 gridFlag=0;
                 System.out.println(linJogada+" " +colJogada);
