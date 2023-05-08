@@ -115,6 +115,7 @@ public class ManualController {
             Stage stage = new Stage();
             stage.setTitle("COMBATE");
             stage.setScene(new Scene(fxmlLoader.load(), 960, 540));
+            stage.setResizable(false);
             stage.show();
             ((Node)(event.getSource())).getScene().getWindow().hide(); //Esconde a scene anterior
         }
@@ -169,7 +170,7 @@ public class ManualController {
 
 
     @FXML
-    void onGridClick(MouseEvent event) throws FileNotFoundException {
+    void onGridClick(MouseEvent event) throws IOException {
         int colIndex, linIndex;
         Node clickedNode = event.getPickResult().getIntersectedNode();
         /*try {
@@ -280,7 +281,7 @@ public class ManualController {
                 marechal++;
             }
         }
-        tabuleiro.imprimirTabuleiro();
+        //tabuleiro.imprimirTabuleiro();
     }
 
 

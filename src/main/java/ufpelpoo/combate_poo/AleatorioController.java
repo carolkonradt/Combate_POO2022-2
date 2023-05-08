@@ -50,7 +50,7 @@ public class AleatorioController {
         tabuleiro = new Tabuleiro();
 
         tabuleiro.criaTabuleiroAleatorio();
-        tabuleiro.imprimirTabuleiro();
+        //tabuleiro.imprimirTabuleiro();
 
         for (i = 0; i < 2; i++) { //posiciona personagens azuis (jogador)
             for (j = 0; j < 5; j++) {
@@ -112,6 +112,7 @@ public class AleatorioController {
             Stage stage = new Stage();
             stage.setTitle("COMBATE");
             stage.setScene(new Scene(fxmlLoader.load(), 960, 540));
+            stage.setResizable(false);
             stage.show();
             ((Node) (event.getSource())).getScene().getWindow().hide(); //Esconde stage anterior
         } catch (IOException e) {

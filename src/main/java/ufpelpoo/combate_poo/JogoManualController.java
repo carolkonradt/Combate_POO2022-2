@@ -1,7 +1,9 @@
 package ufpelpoo.combate_poo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -23,6 +25,8 @@ public class JogoManualController extends ManualController {
 
     @FXML
     private Button btSair;
+    private static boolean ganhouVermelho;
+    private static boolean ganhouAzul;
 
     private int dicaFlag; //0=não solicitou dica; 1=solicitou dica (máximo duas)
     private int contDica;
@@ -31,6 +35,20 @@ public class JogoManualController extends ManualController {
     //1 = há peça selecionada (faz a jogada)
 
     private int linSelecionada, colSelecionada, linJogada, colJogada;
+
+    public boolean getGanhouVermelho(){
+        return ganhouVermelho;
+    }
+    public static boolean getGanhouAzul(){
+        return ganhouAzul;
+    }
+    public void setGanhouVermelho(boolean ganhouVermelho){
+        this.ganhouVermelho=ganhouVermelho;
+    }
+
+    public void setGanhouAzul(boolean ganhouAzul){
+        this.ganhouAzul=ganhouAzul;
+    }
 
     public void initialize() throws FileNotFoundException {
         int i, j;
@@ -76,50 +94,79 @@ public class JogoManualController extends ManualController {
     }
 
     @FXML
-    void onGridClick(MouseEvent event) throws FileNotFoundException {
+    void onGridClick(MouseEvent event) throws IOException {
         Node clickedNode = event.getPickResult().getIntersectedNode();
-        if(dicaFlag==1){
+
+
+        if (dicaFlag == 1) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("DICA");
-            if(contDica<2){
+            if (contDica < 2) {
                 int colIndex, numBombas;
-                colIndex= tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
-                numBombas= tabuleiro.dica(colIndex);
-                if(numBombas>0){
+                colIndex = tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
+                numBombas = tabuleiro.dica(colIndex);
+                if (numBombas > 0) {
                     alert.setHeaderText("Há bombas nessa coluna!");
-                }else{
+                } else {
                     alert.setHeaderText("Não há bombas nessa coluna!");
                 }
-                dicaFlag=0;
+                dicaFlag = 0;
                 contDica++;
-            }else{
+            } else {
                 alert.setHeaderText("Você não possui mais dicas!");
             }
             alert.showAndWait();
-        }else{
+        } else {
 
-            if(gridFlag==0){ //seleciona a linha e coluna do personagem que fará a jogada
-                linSelecionada= tabuleiro.getRowByClickedNode(grTabuleiro, clickedNode);
-                colSelecionada= tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
-                gridFlag=1;
-            }
-            else{
-                linJogada= tabuleiro.getRowByClickedNode(grTabuleiro, clickedNode);
-                colJogada= tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
+            if (gridFlag == 0) { //seleciona a linha e coluna do personagem que fará a jogada
+                linSelecionada = tabuleiro.getRowByClickedNode(grTabuleiro, clickedNode);
+                colSelecionada = tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
+                if(tabuleiro.getEquipeByRowColumn(linSelecionada, colSelecionada)=="azul")
+                    gridFlag = 1;
+
+
+
+            } else {
+                linJogada = tabuleiro.getRowByClickedNode(grTabuleiro, clickedNode);
+                colJogada = tabuleiro.getColumnByClickedNode(grTabuleiro, clickedNode);
                 boolean jogou = tabuleiro.jogada(linSelecionada, colSelecionada, linJogada, colJogada);
 
-                if(jogou){
-                    System.out.println("\n");
-                    tabuleiro.imprimirTabuleiro();
+                if (jogou == true) {
+                    //tabuleiro.imprimirTabuleiro();
                     tabuleiro.refreshTabuleiro(grTabuleiro);
-                    tabuleiro.jogaAdversario();
-                    tabuleiro.refreshTabuleiro(grTabuleiro);
+                    setGanhouAzul(tabuleiro.ganhou(("azul")));
+                    if (ganhouAzul == false) {
+                        tabuleiro.jogaAdversario();
+                        tabuleiro.refreshTabuleiro(grTabuleiro);
+                        setGanhouVermelho(tabuleiro.ganhou(("vermelho")));
+                    }
                 }
-                gridFlag=0;
-                System.out.println(linJogada+" " +colJogada);
+                gridFlag = 0;
+                grTabuleiro.setGridLinesVisible(true);
+
+                if (ganhouAzul == true) {
+                    terminaJogo("azul", event);
+                } else {
+                    if (ganhouVermelho == true) {
+                        terminaJogo("vermelho", event);
+                    }
+                }
             }
         }
 
     }
+    public void terminaJogo(String equipe, MouseEvent event) throws IOException {
+        if(equipe=="azul")
+            setGanhouAzul(true);
+        else
+            setGanhouVermelho(true);
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("FimManualScene.fxml"));
+        Stage stage = new Stage();
+        stage.setTitle("COMBATE");
+        stage.setScene(new Scene(fxmlLoader.load(), 480, 270));
+        stage.setResizable(false);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide(); //Esconde stage anterior
+}
 
 }

@@ -117,6 +117,10 @@ public class Tabuleiro{
         return equipe;
     }
 
+    public String getEquipeByRowColumn(int row, int column){
+        return getEquipe(tabuleiro[row][column]);
+    }
+
     public boolean posicionar(int linha, int coluna, String equipe, int indicePersonagem){
         if(equipe.equalsIgnoreCase("azul")){
             if(linha >= 0 && linha < 2 && coluna >= 0 && coluna < 5){
@@ -160,6 +164,7 @@ public class Tabuleiro{
                             tabuleiro[linhaAtual][colunaAtual].atacar(tabuleiro[novaLinha][novaColuna]);
 
                             if(!tabuleiro[novaLinha][novaColuna].isVivo()){
+                                tabuleiro[novaLinha][novaColuna].setVisibilidade(false);
                                 tabuleiro[novaLinha][novaColuna] = null;
                             }
                         }
@@ -388,7 +393,6 @@ public class Tabuleiro{
 
         }
         URL resource;
-        // System.out.println(imagePath);
        resource = Tabuleiro.class.getResource(imagePath);
 
         String path = resource.toExternalForm();
@@ -432,17 +436,12 @@ public class Tabuleiro{
                     }
                 }
                 if(tabuleiro[i][j]==null){
-                    /*gridpane.getChildren().removeAll(getNodeByRowColumnIndex(gridpane, i, j));
-                    Label label=new Label("Teste");
-                    gridpane.add(label, j, i);
-                    int teste = GridPane.getColumnIndex(label);
-                    System.out.println(teste +"!!!!!!");*/
                     gridpane.getChildren().removeAll(getNodeByRowColumnIndex(gridpane,i, j));
                     addImagem(gridpane, i, j, "vazio", 99);
                 }
             }
         }
-        gridpane.setGridLinesVisible( true );
+        gridpane.setGridLinesVisible(true);
     }
 
     public Node getNodeByRowColumnIndex(GridPane grTabuleiro, final int row, final int column) {
@@ -481,14 +480,10 @@ public class Tabuleiro{
     }
     public int getRowByClickedNode(GridPane gridpane, Node clickedNode){
         int lin;
-        System.out.println(clickedNode);
         try {
             lin = gridpane.getRowIndex(clickedNode);//pega a linha
         } catch (NullPointerException e) {
             lin = 0;
-            System.out.println("entrei no catch");
-            System.out.println(e);
-
         }
 
         return lin;
@@ -511,5 +506,37 @@ public class Tabuleiro{
 
     }
 
+    public boolean ganhou(String equipe){
+        int pecasComMovimento = 0;
+        if(equipe.equalsIgnoreCase("azul")){
+            if(!equipeVermelho[0].isVivo()){
+                return true;
+            }
+            for(int i = 3; i < 10; i++){
+                if(equipeVermelho[i].isVivo()){
+                    pecasComMovimento++;
+                }
+            }
+            if(pecasComMovimento == 0){
+                return true;
+            }
+        }else{
+            if(equipe.equalsIgnoreCase("vermelho")){
+                if(!equipeAzul[0].isVivo()){
+                    return true;
+                }
+                for(int i = 3; i < 10; i++){
+                    if(equipeAzul[i].isVivo()){
+                        pecasComMovimento++;
+                    }
+                }
+                if(pecasComMovimento == 0){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 }
